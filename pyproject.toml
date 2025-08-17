@@ -1,0 +1,15 @@
+[project]
+name = "mlb-recaps"
+version = "1.0.0"
+description = "Package that gathers information on given MLB games and allows downloading of video clips of plays."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bs4>=0.0.2",
+    "curl-cffi>=0.13.0",
+    "fireducks>=1.3.3",
+    "lark>=1.2.2",
+    "lxml>=6.0.0",
+    "pydantic>=2.11.7",
+    "pyyaml>=6.0.2",
+]
