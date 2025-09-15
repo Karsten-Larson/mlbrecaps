@@ -17,6 +17,11 @@ class GameDate(BaseModel):
     totalGamesInProgress: int
     games: list[Game]
 
+    @property
+    def final_games(self) -> list[Game]:
+        """Returns a list of final games for the date."""
+        return [game for game in self.games if game.is_valid_game]
+
 
 class Games(BaseModel):
     model_config = ConfigDict(frozen=True)
@@ -25,25 +30,25 @@ class Games(BaseModel):
     dates: list[GameDate]
 
     @cached_property
-    def game_pks(self) -> list[int]:
+    def game_pks(self) -> set[int]:
         """Returns a list of game Pks."""
-        return [game.gamePk for date in self.dates for game in date.games]
+        return {game.gamePk for date in self.dates for game in date.final_games}
 
     @cached_property
     def games_by_pk(self) -> dict[int, Game]:
         """Returns a dictionary mapping game Pks to Game objects."""
-        return {game.gamePk: game for date in self.dates for game in date.games}
+        return {game.gamePk: game for date in self.dates for game in date.final_games}
 
     @cached_property
     def games_by_date(self) -> dict[str, list[Game]]:
         """Returns a dictionary mapping dates to lists of Game objects."""
-        return {date.date: date.games for date in self.dates}
+        return {date.date: date.final_games for date in self.dates}
     
     @cached_property
     def games(self) -> list[Game]:
         """Returns a flat list of all Game objects."""
-        return [game for date in self.dates for game in date.games]
-    
+        return [game for date in self.dates for game in date.final_games]
+        
     @cached_property
     def plays(self) -> Plays:
         return Plays(self.game_pks)
@@ -53,7 +58,7 @@ class Games(BaseModel):
         """Returns a dictionary mapping team IDs to lists of Game objects."""
         team_games = {}
         for date in self.dates:
-            for game in date.games:
+            for game in date.final_games:
                 team_id = game.teams.away.team.id
                 if team_id not in team_games:
                     team_games[team_id] = []

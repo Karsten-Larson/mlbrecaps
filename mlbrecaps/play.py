@@ -6,15 +6,15 @@ class Play(BaseModel):
     play_id: str
     pitch_type: str
     game_date: str
-    release_speed: Optional[float]
-    release_pos_x: Optional[float]
-    release_pos_z: Optional[float]
+    release_speed: Optional[float] = None
+    release_pos_x: Optional[float] = None
+    release_pos_z: Optional[float] = None
     player_name: str
     batter: int
     pitcher: int
-    events: Optional[str]
+    events: Optional[str] = None
     description: str
-    spin_dir: Optional[float]
+    spin_dir: Optional[float] = None
     zone: int
     long_description: str = Field(..., alias="des")  # alias for 'des', serves as a long description
     game_type: str
@@ -23,33 +23,33 @@ class Play(BaseModel):
     home_team: str
     away_team: str
     type: Literal['X', 'S', 'B']
-    hit_location: Optional[int]
-    bb_type: Optional[str]
+    hit_location: Optional[int] = None
+    bb_type: Optional[str] = None
     balls: int
     strikes: int
     game_year: int
-    pfx_x: Optional[float]
-    pfx_z: Optional[float]
-    plate_x: Optional[float]
-    plate_z: Optional[float]
-    on_3b: Optional[int]
-    on_2b: Optional[int]
-    on_1b: Optional[int]
+    pfx_x: Optional[float] = None
+    pfx_z: Optional[float] = None
+    plate_x: Optional[float] = None
+    plate_z: Optional[float] = None
+    on_3b: Optional[int] = None
+    on_2b: Optional[int] = None
+    on_1b: Optional[int] = None
     outs_when_up: int
     inning: int
     inning_topbot: Literal['Top', 'Bot']
-    hc_x: Optional[float]
-    hc_y: Optional[float]
-    umpire: Optional[int]
-    sv_id: Optional[int]
-    sz_top: Optional[float]
-    sz_bot: Optional[float]
-    hit_distance_sc: Optional[int]
-    launch_speed: Optional[float]
-    launch_angle: Optional[int]
-    effective_speed: Optional[float]
-    release_spin_rate: Optional[int]
-    release_extension: Optional[float]
+    hc_x: Optional[float] = None
+    hc_y: Optional[float] = None
+    umpire: Optional[int] = None
+    sv_id: Optional[int] = None
+    sz_top: Optional[float] = None
+    sz_bot: Optional[float] = None
+    hit_distance_sc: Optional[int] = None
+    launch_speed: Optional[float] = None
+    launch_angle: Optional[int] = None
+    effective_speed: Optional[float] = None
+    release_spin_rate: Optional[int] = None
+    release_extension: Optional[float] = None
     game_pk: int
     fielder_2: int
     fielder_3: int
@@ -60,13 +60,13 @@ class Play(BaseModel):
     fielder_8: int
     fielder_9: int
     release_pos_y: float
-    estimated_ba_using_speedangle: Optional[float]
-    estimated_woba_using_speedangle: Optional[float]
-    woba_value: Optional[float]
-    woba_denom: Optional[float]
-    babip_value: Optional[float]
-    iso_value: Optional[float]
-    launch_speed_angle: Optional[float]
+    estimated_ba_using_speedangle: Optional[float] = None
+    estimated_woba_using_speedangle: Optional[float] = None
+    woba_value: Optional[float] = None
+    woba_denom: Optional[float] = None
+    babip_value: Optional[float] = None
+    iso_value: Optional[float] = None
+    launch_speed_angle: Optional[float] = None
     at_bat_number: int
     pitch_number: int
     pitch_name: str
@@ -83,11 +83,11 @@ class Play(BaseModel):
     spin_axis: int
     delta_home_win_exp: float
     delta_run_exp: float
-    bat_speed: Optional[float]
-    swing_length: Optional[float]
-    estimated_slg_using_speedangle: Optional[float]
+    bat_speed: Optional[float] = None
+    swing_length: Optional[float] = None
+    estimated_slg_using_speedangle: Optional[float] = None
     delta_pitcher_run_exp: float
-    hyper_speed: Optional[float]
+    hyper_speed: Optional[float] = None
     home_score_diff: int
     bat_score_diff: int
     home_win_exp: float
@@ -95,11 +95,11 @@ class Play(BaseModel):
     age_pit: int
     age_bat: int
     n_thruorder_pitcher: int
-    n_priorpa_thisgame_player_at_bat: Optional[int]
-    pitcher_days_since_prev_game: Optional[int]
-    batter_days_since_prev_game: Optional[int]
-    pitcher_days_until_next_game: Optional[int]
-    batter_days_until_next_game: Optional[int]
+    n_priorpa_thisgame_player_at_bat: Optional[int] = None
+    pitcher_days_since_prev_game: Optional[int] = None
+    batter_days_since_prev_game: Optional[int] = None
+    pitcher_days_until_next_game: Optional[int] = None
+    batter_days_until_next_game: Optional[int] = None
 
 
 class PlayField(Enum):

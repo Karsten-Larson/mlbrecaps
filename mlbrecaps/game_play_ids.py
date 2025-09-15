@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Optional
 
 class Scoreboard(BaseModel):
     gamePk: int
@@ -25,8 +25,8 @@ class GamePlayIds(BaseModel):
     gamedayType: str
     gameDate: str
     scoreboard: Scoreboard
-    team_home: list[PlayItem]
-    team_away: list[PlayItem]
+    team_home: list[PlayItem] = []
+    team_away: list[PlayItem] = []
 
     @property
     def play_data(self) -> list[PlayItem]:

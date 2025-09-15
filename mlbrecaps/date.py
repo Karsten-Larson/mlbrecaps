@@ -1,5 +1,4 @@
 from typing import Optional
-from pydantic import field_validator
 from datetime import date
 
 def parse_date(v: str | date) -> date:
@@ -22,3 +21,13 @@ class Date():
     @property
     def end_date(self) -> date:
         return self._end_date    
+
+class Season(Date):
+    """
+    Represents a season in MLB.
+    Inherits from Date to provide start and end dates.
+    """
+    def __init__(self, year: int):
+        start_date = date(year, 1, 1)  # Assuming season starts in March
+        end_date = date(year, 12, 31)   # Assuming season ends in November
+        super().__init__(start_date, end_date)

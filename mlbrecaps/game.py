@@ -1,4 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Json
+from pydantic import BaseModel, ConfigDict
+from typing import Optional
+
 from .plays import Plays
 
 class Status(BaseModel):
@@ -28,11 +30,11 @@ class Team(BaseModel):
 class TeamResult(BaseModel):
     model_config = ConfigDict(frozen=True)
     leagueRecord: LeagueRecord
-    score: int
+    score: Optional[int] = None
     team: Team
-    isWinner: bool
-    splitSquad: bool
-    seriesNumber: int
+    isWinner: Optional[bool] = None
+    splitSquad: Optional[bool] = None
+    seriesNumber: Optional[int] = None
 
 
 class Teams(BaseModel):
@@ -66,7 +68,7 @@ class Game(BaseModel):
     teams: Teams
     venue: Venue
     content: Content
-    isTie: bool
+    # isTie: Optional[bool] = None
     gameNumber: int
     publicFacing: bool
     doubleHeader: str
@@ -78,9 +80,9 @@ class Game(BaseModel):
     scheduledInnings: int
     reverseHomeAwayStatus: bool
     inningBreakLength: int
-    gamesInSeries: int
-    seriesGameNumber: int
-    seriesDescription: str
+    gamesInSeries: Optional[int] = None
+    seriesGameNumber: Optional[int] = None
+    seriesDescription: Optional[str] = None
     recordSource: str
     ifNecessary: str
     ifNecessaryDescription: str
@@ -89,3 +91,18 @@ class Game(BaseModel):
     def plays(self) -> Plays:
         """Returns a Plays instance for the game."""
         return Plays([self.gamePk])
+    
+    @property
+    def is_final(self) -> bool:
+        """Returns True if the game is final."""
+        return self.status.codedGameState == "F"
+    
+    @property
+    def is_regular_season(self) -> bool:
+        """Returns True if the game is a regular season game."""
+        return self.gameType == "R"
+    
+    @property
+    def is_valid_game(self) -> bool:
+        """Returns True if the game is a valid regular season game."""
+        return self.is_final and self.is_regular_season
