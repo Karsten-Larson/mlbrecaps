@@ -14,7 +14,7 @@ async def main():
         .filter_for_events() \
         .sort_by_delta_team_win_exp(team) \
         .head(10) \
-        .reverse() # switch ordering from worst to best
+        .reverse() # switch ordering to worst to best
                             
     output_dir = Path() / "clips"
     output_dir.mkdir(exist_ok=True)

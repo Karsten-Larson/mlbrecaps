@@ -176,7 +176,7 @@ class Plays:
         plays = await self.load()
         return [Clip(play, broadcast) for play in plays]
     
-    async def download_clips(self, path: str | Path, broadcast: Team | BroadcastType | None = None, *, verbose: bool = False) -> list[Path]:
+    async def download_clips(self, path: str | Path, broadcast: Team | BroadcastType | None = None, *, prefix: str = "clip_", verbose: bool = False) -> list[Path]:
         """Downloads the clips for the plays."""
         path = Path(path)
 
@@ -184,7 +184,7 @@ class Plays:
             raise ValueError(f"Path {path} does not exist or is not a directory.")
 
         clips = await self.load_clips(broadcast)
-        tasks = [clip.download(path / f'clip_{i}.mp4', verbose) for i, clip in enumerate(clips)]
+        tasks = [clip.download(path / f'{prefix}{i}.mp4', verbose) for i, clip in enumerate(clips)]
         return await asyncio.gather(*tasks)
 
     @property
