@@ -176,7 +176,7 @@ class Plays:
         plays = await self.load()
         return [Clip(play, broadcast) for play in plays]
     
-    async def download_clips(self, path: str | Path, broadcast: Team | BroadcastType | None = None, verbose: bool = False) -> list[Path]:
+    async def download_clips(self, path: str | Path, broadcast: Team | BroadcastType | None = None, *, verbose: bool = False) -> list[Path]:
         """Downloads the clips for the plays."""
         path = Path(path)
 

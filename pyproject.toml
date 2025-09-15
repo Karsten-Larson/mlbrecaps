@@ -1,6 +1,6 @@
 [project]
-name = "mlb-recaps"
-version = "1.0.0"
+name = "mlbrecaps"
+version = "0.1.0"
 description = "Package that gathers information on given MLB games and allows downloading of video clips of plays."
 readme = "README.md"
 requires-python = ">=3.12"

@@ -19,7 +19,7 @@ async def main():
     output_dir = Path() / "clips"
     output_dir.mkdir(exist_ok=True)
 
-    await plays.download_clips(output_dir, BroadcastType.HOME, True)
+    await plays.download_clips(output_dir, BroadcastType.HOME, verbose=True)
 
 if __name__ == "__main__":
     asyncio.run(main())
