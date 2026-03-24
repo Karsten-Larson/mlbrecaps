@@ -2,7 +2,7 @@ import io
 from curl_cffi.requests import Response
 from curl_cffi import AsyncSession
 import fireducks.pandas as pd
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from typing import Type, TypeVar
 import asyncio
 
@@ -52,7 +52,11 @@ T = TypeVar('T', bound=BaseModel)
 
 async def _fetch_model_from_url(s: AsyncSession, url: str, model: Type[T]) -> T:
     json_data = (await _fetch_url(s, url)).json()
-    return model.model_validate(json_data)
+
+    try:
+        return model.model_validate(json_data)
+    except ValidationError as e:
+        raise ValueError(f"Error validating model for URL {url}: {e}")
 
 
 async def fetch_model_from_url(url: str, model: Type[T]) -> T:
@@ -67,7 +71,11 @@ async def fetch_models_from_url(url: str, model: Type[T]) -> list[T]:
 
 async def fetch_models_from_urls(url: list[str], model: Type[T]) -> list[T]:
     async with AsyncSession() as s:
-        return await asyncio.gather(*[_fetch_model_from_url(s, url, model) for url in url])
+        results = await asyncio.gather(*[_fetch_model_from_url(s, url, model) for url in url],
+                                      return_exceptions=True)
+    
+    models = [model for model in results if not isinstance(model, BaseException)]
+    return models
 
 
 def dataframe_from_model(data: list[T]) -> pd.DataFrame:
